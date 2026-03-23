@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jemenatrading.co.ke/sitemap.xml

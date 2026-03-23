@@ -1,0 +1,214 @@
+/* ===================================
+   JEMENA TRADING LIMITED
+   Design Token System — CSS Variables
+   =================================== */
+
+:root {
+    /* === Brand Colors === */
+    --color-primary-yellow: #ffcc00;
+    --color-primary-yellow-hover: #e6b800;
+    --color-primary-yellow-glow: rgba(255, 204, 0, 0.6);
+    --color-primary-dark-blue: #012344;
+    --color-secondary-blue: #0f4996;
+    --color-accent-red: #d82000;
+    --color-dropdown-hover: #db0303;
+    --color-link-hover-orange: #ff9800;
+
+    /* === Text Colors === */
+    --color-text-primary: #333;
+    --color-text-secondary: #555;
+    --color-text-light: #ddd;
+    --color-text-white: #ffffff;
+    --color-text-heading: #003366;
+
+    /* === Background Colors === */
+    --color-bg-body: #f4f4f4;
+    --color-bg-surface: #ffffff;
+    --color-bg-surface-alt: #f9f9f9;
+    --color-bg-section-light: #f8f9fa;
+    --color-bg-stats: #1a1a1a;
+    --color-bg-stat-item: #2d2d2d;
+    --color-bg-footer: #012344;
+    --color-bg-product-section: #ffffffbe;
+
+    /* === Overlay Colors === */
+    --color-overlay-dark: rgba(0, 0, 0, 0.6);
+    --color-overlay-darker: rgba(0, 0, 0, 0.7);
+    --color-overlay-hero-product: rgba(1, 35, 68, 0.65);
+    --color-overlay-glass-light: rgba(255, 255, 255, 0.1);
+    --color-overlay-glass-medium: rgba(255, 255, 255, 0.2);
+    --color-overlay-glass-strong: rgba(255, 255, 255, 0.95);
+    --color-overlay-glass-mobile: rgba(255, 255, 255, 0.85);
+    --color-overlay-collapsible: rgba(0, 51, 102, 0.8);
+    --color-overlay-service: rgba(255, 255, 255, 0.05);
+
+    /* === Form Colors === */
+    --color-form-input-bg: rgba(255, 255, 255, 0.2);
+    --color-form-input-focus: rgba(255, 255, 255, 0.3);
+
+    /* === Shadow Colors === */
+    --color-shadow-light: rgba(0, 0, 0, 0.1);
+    --color-shadow-medium: rgba(0, 0, 0, 0.2);
+    --color-shadow-dark: rgba(0, 0, 0, 0.3);
+    --color-shadow-heavy: rgba(0, 0, 0, 0.4);
+    --color-shadow-intense: rgba(0, 0, 0, 0.5);
+    --color-shadow-deep: rgba(0, 0, 0, 0.6);
+
+    /* === Back Button Colors === */
+    --color-back-btn-glow-1: #0c3963;
+    --color-back-btn-glow-2: #0c2c68;
+    --color-back-btn-shadow: #5f5656;
+
+    /* === Table Colors === */
+    --color-table-header: #004080;
+    --color-table-border: #ddd;
+    --color-table-row-even: #f9f9f9;
+    --color-table-row-hover: #f1f1f1;
+
+    /* === Chatbot Colors === */
+    --color-chatbot-gradient-start: #1b3194;
+    --color-chatbot-gradient-end: #920505;
+    --color-chatbot-window-end: #808080;
+    --color-chatbot-header-end: #606060;
+    --color-chatbot-user-msg: #606060;
+    --color-chatbot-input-bg: #e0e0e0;
+    --color-chatbot-input-border: #c0c0c0;
+    --color-chatbot-cursor: #c70000;
+
+    /* === Typography === */
+    --font-primary: 'Poppins', sans-serif;
+    --font-chatbot-heading: 'Orbitron', sans-serif;
+    --font-chatbot-body: 'Exo 2', sans-serif;
+
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* === Font Sizes === */
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-md: 1.125rem;
+    --font-size-lg: 1.1rem;
+    --font-size-xl: 1.2rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.8rem;
+    --font-size-4xl: 2rem;
+    --font-size-5xl: 2.2rem;
+    --font-size-6xl: 2.5rem;
+    --font-size-7xl: 2.8rem;
+    --font-size-8xl: 3rem;
+    --font-size-hero: 4rem;
+
+    /* === Line Heights === */
+    --line-height-tight: 1.4;
+    --line-height-normal: 1.6;
+    --line-height-relaxed: 1.8;
+    --line-height-loose: 1.9;
+
+    /* === Spacing === */
+    --spacing-xs: 5px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 25px;
+    --spacing-2xl: 30px;
+    --spacing-3xl: 35px;
+    --spacing-4xl: 40px;
+    --spacing-5xl: 50px;
+    --spacing-6xl: 60px;
+    --spacing-7xl: 80px;
+    --spacing-8xl: 100px;
+
+    /* === Border Radius === */
+    --radius-sm: 5px;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+    --radius-xl: 12px;
+    --radius-2xl: 15px;
+    --radius-full: 50px;
+
+    /* === Box Shadows === */
+    --shadow-sm: 0 4px 8px var(--color-shadow-light);
+    --shadow-md: 0 4px 10px var(--color-shadow-medium);
+    --shadow-lg: 0 8px 16px var(--color-shadow-dark);
+    --shadow-xl: 0 8px 20px var(--color-shadow-dark);
+    --shadow-2xl: 0 10px 25px var(--color-shadow-deep);
+    --shadow-3xl: 0 12px 30px var(--color-shadow-deep);
+
+    /* === Transitions === */
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
+
+    /* === Breakpoints (for reference — used in media queries) === */
+    /* --breakpoint-mobile: 480px; */
+    /* --breakpoint-tablet: 768px; */
+    /* --breakpoint-desktop: 1024px; */
+
+    /* === Z-Index Scale === */
+    --z-back-button: 9999;
+    --z-loading: 9000;
+    --z-chatbot: 1100;
+    --z-nav: 1000;
+    --z-dropdown: 1001;
+    --z-hero-content: 2;
+    --z-overlay: 1;
+
+    /* Nav scrolled backgrounds */
+    --color-nav-bg-scrolled: rgba(1, 35, 68, 0.9);
+    --color-nav-bg-scrolled-dark: rgba(10, 15, 25, 0.95);
+}
+
+/* ===================================
+   DARK THEME
+   =================================== */
+[data-theme="dark"] {
+    /* === Text Colors === */
+    --color-text-primary: #e0e0e0;
+    --color-text-secondary: #b0b0b0;
+    --color-text-heading: #7fb3e0;
+
+    /* === Background Colors === */
+    --color-bg-body: #0d1117;
+    --color-bg-surface: #161b22;
+    --color-bg-surface-alt: #1c2128;
+    --color-bg-section-light: #161b22;
+    --color-bg-stats: #0d1117;
+    --color-bg-stat-item: #1c2128;
+    --color-bg-footer: #010409;
+    --color-bg-product-section: rgba(22, 27, 34, 0.9);
+
+    /* === Table Colors === */
+    --color-table-header: #1a3a5c;
+    --color-table-border: #30363d;
+    --color-table-row-even: #161b22;
+    --color-table-row-hover: #1c2128;
+
+    /* === Overlay Colors === */
+    --color-overlay-glass-strong: rgba(22, 27, 34, 0.95);
+    --color-overlay-glass-mobile: rgba(22, 27, 34, 0.9);
+    --color-overlay-glass-medium: rgba(255, 255, 255, 0.08);
+    --color-overlay-glass-light: rgba(255, 255, 255, 0.05);
+    --color-overlay-collapsible: rgba(10, 30, 60, 0.9);
+    --color-overlay-service: rgba(255, 255, 255, 0.03);
+
+    /* === Form Colors === */
+    --color-form-input-bg: rgba(255, 255, 255, 0.08);
+    --color-form-input-focus: rgba(255, 255, 255, 0.15);
+
+    /* === Shadow Colors (darker in dark mode) === */
+    --color-shadow-light: rgba(0, 0, 0, 0.2);
+    --color-shadow-medium: rgba(0, 0, 0, 0.3);
+    --color-shadow-dark: rgba(0, 0, 0, 0.4);
+    --color-shadow-heavy: rgba(0, 0, 0, 0.5);
+
+    /* === Chatbot in dark mode === */
+    --color-chatbot-input-bg: #1c2128;
+    --color-chatbot-input-border: #30363d;
+
+    /* === Link hover === */
+    --color-link-hover-orange: #ffb347;
+}

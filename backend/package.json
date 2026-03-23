@@ -1,0 +1,41 @@
+{
+  "name": "jt-ai",
+  "version": "1.0.0",
+  "description": "Jemena Trading AI Assistant",
+  "main": "server.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node server.js",
+    "dev": "cross-env NODE_ENV=development nodemon server.js",
+    "docs": "node server.js --docs",
+    "test": "jest --coverage"
+  },
+  "keywords": [
+    "chemical",
+    "ai",
+    "assistant"
+  ],
+  "author": "Allen Muraya Maina",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.8.4",
+    "better-sqlite3": "^12.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "fuse.js": "^7.1.0",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.0",
+    "openai": "^4.88.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.13.0",
+    "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9"
+  }
+}
