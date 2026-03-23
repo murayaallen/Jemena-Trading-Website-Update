@@ -1244,6 +1244,12 @@
     .hero {
         height: 100svh;
         padding: var(--spacing-lg);
+        padding-top: 100px; /* clear fixed nav + breathing room */
+        justify-content: flex-start;
+    }
+    .hero-brand {
+        margin-top: 24px; /* extra gap below nav */
+        margin-bottom: 16px;
     }
     .hero-logo { width: 140px; height: 140px; padding: 0; }
     .hero-logo-wrap { width: 152px; height: 152px; }
@@ -1288,6 +1294,10 @@
 }
 
 @media (max-width: 480px) {
+    .hero {
+        padding-top: 85px;
+    }
+    .hero-brand { margin-top: 16px; }
     .metrics-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
     .metric-card { padding: 22px 14px 18px; }
     .hero-godacity-text { font-size: 0.65rem; letter-spacing: 0.12em; }
