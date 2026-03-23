@@ -1091,6 +1091,12 @@
 }
 
 /* ── Full overlay panel ────────────── */
+/* Force all child text white — override any inherited light-mode variables */
+.card-overlay-panel,
+.card-name-strip {
+    color: #ffffff;
+}
+
 .card-overlay-panel {
     position: absolute;
     inset: 0;
@@ -1147,7 +1153,7 @@
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.7rem;
     letter-spacing: 0.14em;
-    color: #fff;
+    color: #ffffff !important;
     margin: 0 0 12px;
     line-height: 1;
     position: relative;
@@ -1165,7 +1171,7 @@
 
 .cop-desc {
     font-size: 0.82rem;
-    color: rgba(255,255,255,0.92);
+    color: rgba(255,255,255,0.92) !important;
     line-height: 1.65;
     margin: 0 0 20px;
     position: relative;
