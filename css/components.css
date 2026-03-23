@@ -2533,7 +2533,36 @@ tr:hover {
 
 .cart-qty-cancel:hover { background: var(--color-bg-surface-alt); }
 
+/* ── All floating buttons hidden until past hero ── */
+.whatsapp-float,
+#chatbot-button,
+.cart-float-btn {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.whatsapp-float.show,
+#chatbot-button.scrolled-in,
+.cart-float-btn.scrolled-in {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Override: chatbot active state still works */
+#chatbot-button.scrolled-in.jt-active {
+    transform: scale(0.95);
+}
+
 /* Mobile adjustments */
+@media (max-width: 768px) {
+    /* Remove ring from nav logo */
+    .company-name img {
+        border: none;
+        box-shadow: none;
+    }
+}
+
 @media (max-width: 480px) {
     .cart-float-btn {
         bottom: 130px;

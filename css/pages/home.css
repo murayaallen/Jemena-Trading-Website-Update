@@ -1244,11 +1244,11 @@
     .hero {
         height: 100svh;
         padding: var(--spacing-lg);
-        padding-top: 100px; /* clear fixed nav + breathing room */
+        padding-top: 140px; /* clear fixed nav (~70px) + generous breathing room */
         justify-content: flex-start;
     }
     .hero-brand {
-        margin-top: 24px; /* extra gap below nav */
+        margin-top: 0;
         margin-bottom: 16px;
     }
     .hero-logo { width: 140px; height: 140px; padding: 0; }
@@ -1295,9 +1295,11 @@
 
 @media (max-width: 480px) {
     .hero {
-        padding-top: 85px;
+        padding-top: 120px;
     }
-    .hero-brand { margin-top: 16px; }
+    .hero-brand { margin-top: 0; }
+    /* Hide Contact Us CTA on mobile — too crowded */
+    .hero-cta .btn-outline { display: none; }
     .metrics-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
     .metric-card { padding: 22px 14px 18px; }
     .hero-godacity-text { font-size: 0.65rem; letter-spacing: 0.12em; }
