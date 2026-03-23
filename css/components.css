@@ -2533,6 +2533,25 @@ tr:hover {
 
 .cart-qty-cancel:hover { background: var(--color-bg-surface-alt); }
 
+/* ── Theme toggle: desktop = inside nav, mobile = top bar ── */
+@media (max-width: 768px) {
+    /* Push toggle to far right, between logo and hamburger */
+    .top-nav {
+        display: flex;
+        align-items: center;
+    }
+    .top-nav .theme-toggle {
+        margin-left: auto;  /* pushes toggle to right */
+        margin-right: 10px; /* gap before hamburger */
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+    .hamburger {
+        margin-left: 0;
+    }
+}
+
 /* ── All floating buttons hidden until past hero ── */
 .whatsapp-float,
 #chatbot-button,

@@ -1039,16 +1039,17 @@
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.6rem;
     letter-spacing: 0.12em;
-    color: #fff;
-    text-shadow: 0 2px 16px rgba(0,0,0,0.75);
+    color: #ffffff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.9), 0 1px 4px rgba(0,0,0,0.8);
     line-height: 1;
     display: block;
 }
 
 .cns-keys {
     font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 300;
-    color: rgba(255, 204, 0, 0.85);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.88);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.8);
     font-size: 0.68rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -1164,7 +1165,7 @@
 
 .cop-desc {
     font-size: 0.82rem;
-    color: rgba(255,255,255,0.78);
+    color: rgba(255,255,255,0.92);
     line-height: 1.65;
     margin: 0 0 20px;
     position: relative;
