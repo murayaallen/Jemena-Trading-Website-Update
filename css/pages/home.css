@@ -1318,3 +1318,241 @@
     .cop-title { font-size: 1.05rem; }
     .cop-desc { font-size: 0.72rem; -webkit-line-clamp: 2; }
 }
+
+/* =========================================================
+   LOGISTICS SECTION
+   ========================================================= */
+.logistics-section {
+    background: #020d1a;
+    padding: 100px clamp(24px, 6vw, 80px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle background texture */
+.logistics-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 20% 50%, rgba(15,73,150,0.12) 0%, transparent 60%),
+                      radial-gradient(circle at 80% 50%, rgba(255,204,0,0.04) 0%, transparent 55%);
+    pointer-events: none;
+}
+
+.logistics-inner {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+}
+
+/* ── Left: Content ── */
+.logistics-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.logistics-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary-yellow);
+    background: rgba(255,204,0,0.08);
+    border: 1px solid rgba(255,204,0,0.25);
+    border-radius: var(--radius-full);
+    padding: 6px 14px;
+    width: fit-content;
+    margin-bottom: 28px;
+}
+
+.logistics-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    letter-spacing: 0.06em;
+    line-height: 0.95;
+    color: #ffffff;
+    margin: 0 0 24px;
+}
+
+.logistics-headline br + * ,
+.logistics-headline {
+    /* Second line in gold */
+}
+
+.logistics-desc {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75;
+    max-width: 420px;
+    margin: 0 0 44px;
+}
+
+/* Stats row */
+.logistics-stats {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.logistics-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ls-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    letter-spacing: 0.06em;
+    color: var(--color-primary-yellow);
+    line-height: 1;
+}
+
+.ls-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+}
+
+.ls-div {
+    width: 1px;
+    height: 44px;
+    background: rgba(255,255,255,0.12);
+    flex-shrink: 0;
+}
+
+/* ── Right: Photos ── */
+.logistics-photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 12px;
+    height: 520px;
+}
+
+.lp-main {
+    grid-column: 1;
+    grid-row: 1;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+}
+
+.lp-secondary {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+}
+
+.lp-main img,
+.lp-secondary img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 6s ease;
+    display: block;
+}
+
+.lp-main:hover img,
+.lp-secondary:hover img {
+    transform: scale(1.05);
+}
+
+/* Dark gradient at bottom of each photo */
+.lp-main::after,
+.lp-secondary::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(transparent, rgba(2,13,26,0.85));
+    pointer-events: none;
+    border-radius: 0 0 16px 16px;
+}
+
+/* Gold accent line on top */
+.lp-main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--color-primary-yellow);
+    z-index: 2;
+}
+
+.lp-caption {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+}
+
+.lp-caption i {
+    color: var(--color-primary-yellow);
+    font-size: 0.65rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+    .logistics-inner {
+        gap: 40px;
+    }
+    .logistics-photos {
+        height: 420px;
+    }
+}
+
+@media (max-width: 768px) {
+    .logistics-section {
+        padding: 72px 24px;
+    }
+    .logistics-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .logistics-headline {
+        font-size: clamp(3rem, 10vw, 4rem);
+    }
+    .logistics-desc {
+        max-width: 100%;
+        margin-bottom: 32px;
+    }
+    .logistics-photos {
+        height: 320px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logistics-photos {
+        height: 240px;
+        gap: 8px;
+    }
+    .ls-num { font-size: 2.2rem; }
+    .logistics-stats { gap: 18px; }
+}
