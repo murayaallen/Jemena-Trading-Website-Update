@@ -1406,11 +1406,8 @@
     background: rgba(255,255,255,0.06);
 }
 
-/* Inverted row */
+/* Inverted row — photo already first in HTML, so grid shows photo left, text right */
 .logistics-row-reverse {
-    direction: rtl;
-}
-.logistics-row-reverse > * {
     direction: ltr;
 }
 
@@ -1523,9 +1520,7 @@
         grid-template-columns: 1fr;
         gap: 32px;
         margin-bottom: 60px;
-        direction: ltr;
     }
-    .logistics-row-reverse { direction: ltr; }
     .logistics-photo { height: 280px; order: -1; }
     .lrow-title { font-size: clamp(1.8rem, 7vw, 2.4rem); }
     .lrow-body { font-size: 0.93rem; }
