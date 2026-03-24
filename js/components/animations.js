@@ -113,26 +113,23 @@
             return a + Math.random() * (b - a);
         }
 
-        // Particle colours: white, brand red, brand blue
-        var COLORS = [
-            { r: 255, g: 255, b: 255 },  // white
-            { r: 200, g: 22,  b: 26  },  // brand red
-            { r: 15,  g: 73,  b: 150 }   // brand blue
-        ];
+        // Two strict groups — red and blue only
+        var RED  = { r: 200, g: 22,  b: 26  };
+        var BLUE = { r: 15,  g: 73,  b: 150 };
 
-        function createParticle() {
-            var col = COLORS[Math.floor(Math.random() * COLORS.length)];
+        function createParticle(forceColor) {
+            // Strictly alternate: half red, half blue
+            var col = forceColor || (Math.random() < 0.5 ? RED : BLUE);
             return {
-                x:     randomBetween(0, canvas.width),
-                y:     randomBetween(0, canvas.height),
-                r:     randomBetween(1.2, 2.8),
-                vx:    randomBetween(-0.3, 0.3),
-                vy:    randomBetween(-0.3, 0.3),
-                alpha: randomBetween(0.28, 0.70),
-                col:   col,
-                // slow colour drift — cycles through hue over time
-                drift: randomBetween(0, Math.PI * 2),
-                driftSpeed: randomBetween(0.003, 0.008)
+                x:          randomBetween(0, canvas.width),
+                y:          randomBetween(0, canvas.height),
+                r:          randomBetween(1.4, 3.2),
+                vx:         randomBetween(-0.35, 0.35),
+                vy:         randomBetween(-0.35, 0.35),
+                alpha:      randomBetween(0.35, 0.80),
+                col:        col,
+                pulse:      randomBetween(0, Math.PI * 2),
+                pulseSpeed: randomBetween(0.012, 0.025)
             };
         }
 
@@ -152,39 +149,60 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw connecting lines — gradient between the two particle colours
             for (var a = 0; a < particles.length; a++) {
                 for (var b = a + 1; b < particles.length; b++) {
                     var dx = particles[a].x - particles[b].x;
                     var dy = particles[a].y - particles[b].y;
                     var dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < CONNECTION_DIST) {
-                        var lineAlpha = 0.22 * (1 - dist / CONNECTION_DIST);
+                        var proximity = 1 - dist / CONNECTION_DIST;
                         var ca = particles[a].col;
                         var cb = particles[b].col;
-                        var grad = ctx.createLinearGradient(
-                            particles[a].x, particles[a].y,
-                            particles[b].x, particles[b].y
-                        );
-                        grad.addColorStop(0, 'rgba(' + ca.r + ',' + ca.g + ',' + ca.b + ',' + lineAlpha + ')');
-                        grad.addColorStop(1, 'rgba(' + cb.r + ',' + cb.g + ',' + cb.b + ',' + lineAlpha + ')');
+                        var sameGroup = (ca === cb);
+
                         ctx.beginPath();
                         ctx.moveTo(particles[a].x, particles[a].y);
                         ctx.lineTo(particles[b].x, particles[b].y);
-                        ctx.strokeStyle = grad;
-                        ctx.lineWidth = 0.7;
+
+                        if (sameGroup) {
+                            // Same-colour lines: clean solid stroke, stronger
+                            ctx.strokeStyle = 'rgba(' + ca.r + ',' + ca.g + ',' + ca.b + ',' + (0.28 * proximity) + ')';
+                            ctx.lineWidth = 0.8;
+                        } else {
+                            // Cross-colour lines: red→blue gradient, slightly brighter — the "pulse web" effect
+                            var grad = ctx.createLinearGradient(
+                                particles[a].x, particles[a].y,
+                                particles[b].x, particles[b].y
+                            );
+                            var la = 0.35 * proximity;
+                            grad.addColorStop(0,    'rgba(' + ca.r + ',' + ca.g + ',' + ca.b + ',' + la + ')');
+                            grad.addColorStop(0.5,  'rgba(255,255,255,' + (la * 0.6) + ')');
+                            grad.addColorStop(1,    'rgba(' + cb.r + ',' + cb.g + ',' + cb.b + ',' + la + ')');
+                            ctx.strokeStyle = grad;
+                            ctx.lineWidth = 1.0;
+                        }
                         ctx.stroke();
                     }
                 }
             }
 
-            // Draw particles — each its own colour, slow alpha pulse
+            // Draw particles with breathing pulse
             particles.forEach(function (p) {
-                p.drift += p.driftSpeed;
-                var pulse = p.alpha * (0.75 + 0.25 * Math.sin(p.drift));
+                p.pulse += p.pulseSpeed;
+                var glow = p.alpha * (0.7 + 0.3 * Math.sin(p.pulse));
+
+                // Outer glow ring on larger particles
+                if (p.r > 2.2) {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r + 2.5, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(' + p.col.r + ',' + p.col.g + ',' + p.col.b + ',' + (glow * 0.15) + ')';
+                    ctx.fill();
+                }
+
+                // Core dot
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(' + p.col.r + ',' + p.col.g + ',' + p.col.b + ',' + pulse + ')';
+                ctx.fillStyle = 'rgba(' + p.col.r + ',' + p.col.g + ',' + p.col.b + ',' + glow + ')';
                 ctx.fill();
 
                 p.x += p.vx;
