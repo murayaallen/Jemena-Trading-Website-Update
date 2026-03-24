@@ -99,13 +99,12 @@
         if (!canvas) return;
 
         var ctx = canvas.getContext('2d');
-        var particles = [];
+        var streams = [];
         var raf;
-        var PARTICLE_COUNT = 55;
-        var CONNECTION_DIST = 110;
+        var STREAM_COUNT = 38;
 
         function resize() {
-            canvas.width = canvas.offsetWidth;
+            canvas.width  = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
         }
 
@@ -113,105 +112,104 @@
             return a + Math.random() * (b - a);
         }
 
-        // Two strict groups — red and blue only
         var RED  = { r: 200, g: 22,  b: 26  };
         var BLUE = { r: 15,  g: 73,  b: 150 };
 
-        function createParticle(forceColor) {
-            // Strictly alternate: half red, half blue
-            var col = forceColor || (Math.random() < 0.5 ? RED : BLUE);
+        // Each "stream" is a particle that curves through space and leaves a fading trail
+        function createStream() {
+            var col   = Math.random() < 0.5 ? RED : BLUE;
+            var angle = randomBetween(0, Math.PI * 2);
+            var speed = randomBetween(0.6, 1.6);
             return {
                 x:          randomBetween(0, canvas.width),
                 y:          randomBetween(0, canvas.height),
-                r:          randomBetween(1.4, 3.2),
-                vx:         randomBetween(-0.35, 0.35),
-                vy:         randomBetween(-0.35, 0.35),
-                alpha:      randomBetween(0.35, 0.80),
+                vx:         Math.cos(angle) * speed,
+                vy:         Math.sin(angle) * speed,
+                // angular velocity — how much it curves each frame
+                curve:      randomBetween(-0.018, 0.018),
+                r:          randomBetween(1.5, 3.0),
+                alpha:      randomBetween(0.45, 0.85),
                 col:        col,
-                pulse:      randomBetween(0, Math.PI * 2),
-                pulseSpeed: randomBetween(0.012, 0.025)
+                // trail: array of past positions
+                trail:      [],
+                trailLen:   Math.floor(randomBetween(18, 48))
             };
         }
 
         resize();
         window.addEventListener('resize', function () {
             resize();
-            particles = [];
-            for (var i = 0; i < PARTICLE_COUNT; i++) {
-                particles.push(createParticle());
-            }
+            streams = [];
+            for (var i = 0; i < STREAM_COUNT; i++) streams.push(createStream());
         }, { passive: true });
 
-        for (var i = 0; i < PARTICLE_COUNT; i++) {
-            particles.push(createParticle());
-        }
+        for (var i = 0; i < STREAM_COUNT; i++) streams.push(createStream());
 
         function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Semi-transparent clear — lets old frames linger briefly = trail effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            for (var a = 0; a < particles.length; a++) {
-                for (var b = a + 1; b < particles.length; b++) {
-                    var dx = particles[a].x - particles[b].x;
-                    var dy = particles[a].y - particles[b].y;
-                    var dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < CONNECTION_DIST) {
-                        var proximity = 1 - dist / CONNECTION_DIST;
-                        var ca = particles[a].col;
-                        var cb = particles[b].col;
-                        var sameGroup = (ca === cb);
+            streams.forEach(function (s) {
+                // Record position in trail
+                s.trail.push({ x: s.x, y: s.y });
+                if (s.trail.length > s.trailLen) s.trail.shift();
+
+                // Draw trail as a tapered line
+                if (s.trail.length > 1) {
+                    for (var t = 1; t < s.trail.length; t++) {
+                        var progress = t / s.trail.length;
+                        var trailAlpha = s.alpha * progress * 0.55;
+                        var trailWidth = s.r * progress * 0.9;
+
+                        // Gradient trail: fades from colour to transparent
+                        var grad = ctx.createLinearGradient(
+                            s.trail[t - 1].x, s.trail[t - 1].y,
+                            s.trail[t].x,     s.trail[t].y
+                        );
+                        grad.addColorStop(0, 'rgba(' + s.col.r + ',' + s.col.g + ',' + s.col.b + ',0)');
+                        grad.addColorStop(1, 'rgba(' + s.col.r + ',' + s.col.g + ',' + s.col.b + ',' + trailAlpha + ')');
 
                         ctx.beginPath();
-                        ctx.moveTo(particles[a].x, particles[a].y);
-                        ctx.lineTo(particles[b].x, particles[b].y);
-
-                        if (sameGroup) {
-                            // Same-colour lines: clean solid stroke, stronger
-                            ctx.strokeStyle = 'rgba(' + ca.r + ',' + ca.g + ',' + ca.b + ',' + (0.28 * proximity) + ')';
-                            ctx.lineWidth = 0.8;
-                        } else {
-                            // Cross-colour lines: red→blue gradient, slightly brighter — the "pulse web" effect
-                            var grad = ctx.createLinearGradient(
-                                particles[a].x, particles[a].y,
-                                particles[b].x, particles[b].y
-                            );
-                            var la = 0.35 * proximity;
-                            grad.addColorStop(0,    'rgba(' + ca.r + ',' + ca.g + ',' + ca.b + ',' + la + ')');
-                            grad.addColorStop(0.5,  'rgba(255,255,255,' + (la * 0.6) + ')');
-                            grad.addColorStop(1,    'rgba(' + cb.r + ',' + cb.g + ',' + cb.b + ',' + la + ')');
-                            ctx.strokeStyle = grad;
-                            ctx.lineWidth = 1.0;
-                        }
+                        ctx.moveTo(s.trail[t - 1].x, s.trail[t - 1].y);
+                        ctx.lineTo(s.trail[t].x,     s.trail[t].y);
+                        ctx.strokeStyle = grad;
+                        ctx.lineWidth   = trailWidth;
+                        ctx.lineCap     = 'round';
                         ctx.stroke();
                     }
                 }
-            }
 
-            // Draw particles with breathing pulse
-            particles.forEach(function (p) {
-                p.pulse += p.pulseSpeed;
-                var glow = p.alpha * (0.7 + 0.3 * Math.sin(p.pulse));
-
-                // Outer glow ring on larger particles
-                if (p.r > 2.2) {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r + 2.5, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(' + p.col.r + ',' + p.col.g + ',' + p.col.b + ',' + (glow * 0.15) + ')';
-                    ctx.fill();
-                }
-
-                // Core dot
+                // Draw head dot
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(' + p.col.r + ',' + p.col.g + ',' + p.col.b + ',' + glow + ')';
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(' + s.col.r + ',' + s.col.g + ',' + s.col.b + ',' + s.alpha + ')';
                 ctx.fill();
 
-                p.x += p.vx;
-                p.y += p.vy;
+                // Curve the velocity angle
+                var speed = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
+                var angle = Math.atan2(s.vy, s.vx) + s.curve;
+                s.vx = Math.cos(angle) * speed;
+                s.vy = Math.sin(angle) * speed;
 
-                if (p.x < -5) p.x = canvas.width + 5;
-                else if (p.x > canvas.width + 5) p.x = -5;
-                if (p.y < -5) p.y = canvas.height + 5;
-                else if (p.y > canvas.height + 5) p.y = -5;
+                s.x += s.vx;
+                s.y += s.vy;
+
+                // Respawn off-screen streams from a random edge
+                if (s.x < -60 || s.x > canvas.width + 60 || s.y < -60 || s.y > canvas.height + 60) {
+                    var edge   = Math.floor(Math.random() * 4);
+                    var newAngle, newSpeed;
+                    if (edge === 0) { s.x = randomBetween(0, canvas.width);  s.y = -10; newAngle = randomBetween(0.1, Math.PI - 0.1); }
+                    else if (edge === 1) { s.x = canvas.width + 10; s.y = randomBetween(0, canvas.height); newAngle = randomBetween(Math.PI * 0.6, Math.PI * 1.4); }
+                    else if (edge === 2) { s.x = randomBetween(0, canvas.width);  s.y = canvas.height + 10; newAngle = randomBetween(Math.PI + 0.1, Math.PI * 2 - 0.1); }
+                    else { s.x = -10; s.y = randomBetween(0, canvas.height); newAngle = randomBetween(-Math.PI * 0.4, Math.PI * 0.4); }
+                    newSpeed  = randomBetween(0.6, 1.6);
+                    s.vx      = Math.cos(newAngle) * newSpeed;
+                    s.vy      = Math.sin(newAngle) * newSpeed;
+                    s.trail   = [];
+                    s.col     = Math.random() < 0.5 ? RED : BLUE;
+                    s.curve   = randomBetween(-0.018, 0.018);
+                }
             });
 
             raf = requestAnimationFrame(draw);
