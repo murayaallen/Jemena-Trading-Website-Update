@@ -60,6 +60,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: visible;
 }
 
 .hero-logo {
@@ -70,14 +71,13 @@
     border-radius: 50%;
     background: rgba(1, 35, 68, 0.85);
     padding: 0;
-    box-shadow:
-        0 0 0 3px rgba(255, 204, 0, 0.55),
-        0 0 40px rgba(255, 204, 0, 0.25),
-        0 12px 48px rgba(0, 0, 0, 0.55);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.55);
     /* Starts invisible — JS sets opacity:1 after loading logo lands */
     opacity: 0;
-    transition: opacity 0.35s ease, transform 0.4s ease, box-shadow 0.4s ease;
+    transition: opacity 0.35s ease, transform 0.4s ease;
     display: block;
+    position: relative;
+    z-index: 2;
 }
 
 /* Revealed state — added by JS after fly-in completes */
@@ -86,19 +86,26 @@
 }
 
 .hero-logo:hover {
-    transform: scale(1.04);
-    box-shadow:
-        0 0 0 4px rgba(255, 204, 0, 0.8),
-        0 0 60px rgba(255, 204, 0, 0.35),
-        0 12px 56px rgba(0, 0, 0, 0.6);
+    transform: scale(1.03);
 }
 
+/* Subtle background pulse — sits behind the logo, expands and fades */
 .hero-logo-ring {
     position: absolute;
-    inset: -10px;
+    inset: 0;
     border-radius: 50%;
-    border: 2px solid rgba(255, 204, 0, 0.30);
-    animation: ringPulse 3s ease-in-out infinite;
+    z-index: 1;
+    background: transparent;
+    animation: ringPulse 3.5s ease-out infinite;
+}
+
+/* Second ring — offset timing for layered effect */
+.hero-logo-ring::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    animation: ringPulse 3.5s ease-out 1.75s infinite;
 }
 
 /* GOD & AUDACITY row */
@@ -112,7 +119,7 @@
     flex: 1;
     height: 1px;
     width: 60px;
-    background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.7), transparent);
+    background: linear-gradient(90deg, transparent, rgba(200, 22, 26, 0.7), transparent);
     display: block;
 }
 
@@ -124,11 +131,11 @@
     text-transform: uppercase;
     background: linear-gradient(
         135deg,
-        #ffe066 0%,
-        #ffcc00 30%,
-        #fff4a0 55%,
-        #ffcc00 75%,
-        #e6a800 100%
+        #ffffff 0%,
+        #c8161a 35%,
+        #ffffff 55%,
+        #0f4996 75%,
+        #ffffff 100%
     );
     background-size: 200% auto;
     -webkit-background-clip: text;
@@ -170,7 +177,7 @@
     font-weight: var(--font-weight-semibold);
     min-width: 180px;
     text-align: center;
-    border-bottom: 2px solid rgba(255, 204, 0, 0.5);
+    border-bottom: 2px solid rgba(200, 22, 26, 0.5);
     padding-bottom: 2px;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -210,16 +217,16 @@
 
 .btn-primary {
     background: var(--color-primary-yellow);
-    color: var(--color-primary-dark-blue);
+    color: #ffffff;
     border-color: var(--color-primary-yellow);
 }
 
 .btn-primary:hover {
-    background: #fff4a0;
-    border-color: #fff4a0;
+    background: var(--color-primary-yellow-hover);
+    border-color: var(--color-primary-yellow-hover);
     transform: translateY(-3px);
-    box-shadow: 0 10px 32px rgba(255, 204, 0, 0.45);
-    color: var(--color-primary-dark-blue);
+    box-shadow: 0 10px 32px rgba(200, 22, 26, 0.45);
+    color: #ffffff;
 }
 
 .btn-outline {
@@ -298,7 +305,7 @@
     width: 58px;
     height: 58px;
     margin: 0 auto var(--spacing-md);
-    background: rgba(255, 204, 0, 0.10);
+    background: rgba(200, 22, 26, 0.10);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -310,7 +317,7 @@
 
 .feature-item:hover .feature-icon {
     transform: scale(1.12) rotate(-6deg);
-    background: rgba(255, 204, 0, 0.20);
+    background: rgba(200, 22, 26, 0.20);
 }
 
 .feature-item h4 {
@@ -505,10 +512,10 @@
 .learn-more-btn i { transition: transform 0.25s ease; }
 
 .learn-more-btn:hover {
-    background: #fff4a0;
+    background: #e05555;
     color: var(--color-primary-dark-blue);
     transform: translateY(-3px);
-    box-shadow: 0 10px 28px rgba(255,204,0,0.35);
+    box-shadow: 0 10px 28px rgba(200,22,26,0.35);
 }
 
 .learn-more-btn:hover i { transform: translateX(4px); }
@@ -714,7 +721,7 @@
     transform: translateX(-50%);
     background: rgba(1, 35, 68, 0.92);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 204, 0, 0.3);
+    border: 1px solid rgba(200, 22, 26, 0.3);
     border-radius: 50px;
     padding: 12px 24px;
     z-index: 6;
@@ -744,7 +751,7 @@
 
 .av-stat strong span {
     font-size: 0.85rem;
-    color: rgba(255,204,0,0.7);
+    color: rgba(200,22,26,0.7);
 }
 
 .av-stat > span {
@@ -758,7 +765,7 @@
 .av-stat-divider {
     width: 1px;
     height: 32px;
-    background: rgba(255,204,0,0.25);
+    background: rgba(200,22,26,0.25);
 }
 
 /* ── Circular stamp ────────────────── */
@@ -769,7 +776,7 @@
     width: 82px;
     height: 82px;
     border-radius: 50%;
-    border: 2px dashed rgba(255,204,0,0.65);
+    border: 2px dashed rgba(200,22,26,0.65);
     background: rgba(1, 35, 68, 0.88);
     backdrop-filter: blur(6px);
     display: flex;
@@ -785,7 +792,7 @@
     font-size: 0.5rem;
     font-weight: 700;
     letter-spacing: 0.2em;
-    color: rgba(255,204,0,0.6);
+    color: rgba(200,22,26,0.6);
     text-transform: uppercase;
 }
 
@@ -869,7 +876,7 @@
     font-style: italic;
     font-size: 0.92rem;
     color: rgba(255, 255, 255, 0.65);
-    border-left: 3px solid rgba(255, 204, 0, 0.6);
+    border-left: 3px solid rgba(200, 22, 26, 0.6);
     margin: 0 0 28px;
     padding: 10px 0 10px 16px;
     line-height: 1.7;
@@ -1075,7 +1082,7 @@
 .card-plus-icon {
     color: var(--color-primary-yellow);
     font-size: 0.85rem;
-    border: 1.5px solid rgba(255,204,0,0.6);
+    border: 1.5px solid rgba(200,22,26,0.6);
     border-radius: 50%;
     width: 24px;
     height: 24px;
@@ -1129,7 +1136,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(circle, rgba(255,204,0,0.06) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(200,22,26,0.06) 1px, transparent 1px);
     background-size: 22px 22px;
     pointer-events: none;
 }
@@ -1140,8 +1147,8 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-primary-yellow);
-    background: rgba(255,204,0,0.12);
-    border: 1px solid rgba(255,204,0,0.3);
+    background: rgba(200,22,26,0.12);
+    border: 1px solid rgba(200,22,26,0.3);
     border-radius: var(--radius-full);
     padding: 4px 10px;
     margin-bottom: 14px;
@@ -1193,7 +1200,7 @@
 }
 
 .cop-btn:hover {
-    background: #fff4a0;
+    background: #e05555;
     color: var(--color-primary-dark-blue);
     transform: translateX(4px);
 }
@@ -1225,8 +1232,25 @@
 }
 
 @keyframes ringPulse {
-    0%, 100% { transform: scale(1);   opacity: 0.5; }
-    50%       { transform: scale(1.12); opacity: 0.15; }
+    0% {
+        transform: scale(1);
+        box-shadow:
+            0 0 0 0px rgba(15, 73, 150, 0.0),
+            0 0 0 0px rgba(200, 22, 26, 0.0);
+        opacity: 1;
+    }
+    40% {
+        box-shadow:
+            0 0 0 18px rgba(15, 73, 150, 0.18),
+            0 0 0 8px rgba(200, 22, 26, 0.12);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow:
+            0 0 0 40px rgba(15, 73, 150, 0.0),
+            0 0 0 28px rgba(200, 22, 26, 0.0);
+        opacity: 0;
+    }
 }
 
 /* =========================================================
@@ -1341,7 +1365,7 @@
     inset: 0;
     background-image:
         radial-gradient(circle at 15% 30%, rgba(15,73,150,0.10) 0%, transparent 55%),
-        radial-gradient(circle at 85% 70%, rgba(255,204,0,0.04) 0%, transparent 50%);
+        radial-gradient(circle at 85% 70%, rgba(200,22,26,0.04) 0%, transparent 50%);
     pointer-events: none;
 }
 
@@ -1362,8 +1386,8 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--color-primary-yellow);
-    background: rgba(255,204,0,0.08);
-    border: 1px solid rgba(255,204,0,0.25);
+    background: rgba(200,22,26,0.08);
+    border: 1px solid rgba(200,22,26,0.25);
     border-radius: var(--radius-full);
     padding: 6px 16px;
     margin-bottom: 24px;

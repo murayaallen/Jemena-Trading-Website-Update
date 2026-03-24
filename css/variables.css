@@ -5,9 +5,9 @@
 
 :root {
     /* === Brand Colors === */
-    --color-primary-yellow: #ffcc00;
-    --color-primary-yellow-hover: #e6b800;
-    --color-primary-yellow-glow: rgba(255, 204, 0, 0.6);
+    --color-primary-yellow: #c8161a;
+    --color-primary-yellow-hover: #a81015;
+    --color-primary-yellow-glow: rgba(200, 22, 26, 0.5);
     --color-primary-dark-blue: #012344;
     --color-secondary-blue: #0f4996;
     --color-accent-red: #d82000;
