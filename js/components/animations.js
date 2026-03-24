@@ -113,14 +113,26 @@
             return a + Math.random() * (b - a);
         }
 
+        // Particle colours: white, brand red, brand blue
+        var COLORS = [
+            { r: 255, g: 255, b: 255 },  // white
+            { r: 200, g: 22,  b: 26  },  // brand red
+            { r: 15,  g: 73,  b: 150 }   // brand blue
+        ];
+
         function createParticle() {
+            var col = COLORS[Math.floor(Math.random() * COLORS.length)];
             return {
-                x:  randomBetween(0, canvas.width),
-                y:  randomBetween(0, canvas.height),
-                r:  randomBetween(1.2, 2.8),
-                vx: randomBetween(-0.3, 0.3),
-                vy: randomBetween(-0.3, 0.3),
-                alpha: randomBetween(0.25, 0.65)
+                x:     randomBetween(0, canvas.width),
+                y:     randomBetween(0, canvas.height),
+                r:     randomBetween(1.2, 2.8),
+                vx:    randomBetween(-0.3, 0.3),
+                vy:    randomBetween(-0.3, 0.3),
+                alpha: randomBetween(0.28, 0.70),
+                col:   col,
+                // slow colour drift — cycles through hue over time
+                drift: randomBetween(0, Math.PI * 2),
+                driftSpeed: randomBetween(0.003, 0.008)
             };
         }
 
@@ -140,35 +152,44 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw connecting lines
+            // Draw connecting lines — gradient between the two particle colours
             for (var a = 0; a < particles.length; a++) {
                 for (var b = a + 1; b < particles.length; b++) {
                     var dx = particles[a].x - particles[b].x;
                     var dy = particles[a].y - particles[b].y;
                     var dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < CONNECTION_DIST) {
-                        var lineAlpha = 0.18 * (1 - dist / CONNECTION_DIST);
+                        var lineAlpha = 0.22 * (1 - dist / CONNECTION_DIST);
+                        var ca = particles[a].col;
+                        var cb = particles[b].col;
+                        var grad = ctx.createLinearGradient(
+                            particles[a].x, particles[a].y,
+                            particles[b].x, particles[b].y
+                        );
+                        grad.addColorStop(0, 'rgba(' + ca.r + ',' + ca.g + ',' + ca.b + ',' + lineAlpha + ')');
+                        grad.addColorStop(1, 'rgba(' + cb.r + ',' + cb.g + ',' + cb.b + ',' + lineAlpha + ')');
                         ctx.beginPath();
                         ctx.moveTo(particles[a].x, particles[a].y);
                         ctx.lineTo(particles[b].x, particles[b].y);
-                        ctx.strokeStyle = 'rgba(255, 204, 0, ' + lineAlpha + ')';
-                        ctx.lineWidth = 0.6;
+                        ctx.strokeStyle = grad;
+                        ctx.lineWidth = 0.7;
                         ctx.stroke();
                     }
                 }
             }
 
-            // Draw particles
+            // Draw particles — each its own colour, slow alpha pulse
             particles.forEach(function (p) {
+                p.drift += p.driftSpeed;
+                var pulse = p.alpha * (0.75 + 0.25 * Math.sin(p.drift));
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 204, 0, ' + p.alpha + ')';
+                ctx.fillStyle = 'rgba(' + p.col.r + ',' + p.col.g + ',' + p.col.b + ',' + pulse + ')';
                 ctx.fill();
 
                 p.x += p.vx;
                 p.y += p.vy;
 
-                // Wrap around edges
                 if (p.x < -5) p.x = canvas.width + 5;
                 else if (p.x > canvas.width + 5) p.x = -5;
                 if (p.y < -5) p.y = canvas.height + 5;
