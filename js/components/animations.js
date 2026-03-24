@@ -146,9 +146,8 @@
         for (var i = 0; i < STREAM_COUNT; i++) streams.push(createStream());
 
         function draw() {
-            // Semi-transparent clear — lets old frames linger briefly = trail effect
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Full clear — keeps canvas transparent so hero photo and theme show through
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             streams.forEach(function (s) {
                 // Record position in trail
